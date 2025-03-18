@@ -49,9 +49,26 @@ wget "$distro_file_url"
 
 # Unpack distro to /operaton directory
 mkdir -p /operaton
+
+# Would contain the application files
+mkdir -p /tmp/operaton-app
+
 case ${DISTRO} in
-    run*) tar xzf "$distro_file_name" -C /operaton;;
-    *)    tar xzf "$distro_file_name" -C /operaton server --strip 2;;
+    run*)
+      tar xzf "$distro_file_name" -C /operaton
+      mv /operaton/internal/operaton-bpm.jar /tmp/operaton-app/operaton-bpm.jar
+      ;;
+    tomcat)
+      tar xzf "$distro_file_name" -C /operaton server --strip 2
+      mv /operaton/webapps /tmp/operaton-app/webapps
+      ;;
+    wildfly)
+      tar xzf "$distro_file_name" -C /operaton server --strip 2
+      mv /operaton/standalone/deployments /tmp/operaton-app/deployments
+      ;;
+    *)
+      echo "Unknown DISTRO: $DISTRO"
+      ;;
 esac
 cp /tmp/operaton-"${GROUP}".sh /operaton/operaton.sh
 
