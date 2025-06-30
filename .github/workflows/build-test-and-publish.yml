@@ -39,8 +39,8 @@ on:
 jobs:
   build-and-test:
     env:
-      version: '1.0.0-beta-4'
-      snapshot: false
+      VERSION: '1.0.0-beta-4'
+      SNAPSHOT: false
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
