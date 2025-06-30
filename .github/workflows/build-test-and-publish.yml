@@ -1,5 +1,8 @@
 name: Build, test, and publish
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       distribution:
@@ -81,6 +84,7 @@ jobs:
           IMAGE_REPO_OPERATON: ${{ vars.IMAGE_REPO_OPERATON }}
           IMAGE_REPO_TOMCAT: ${{ vars.IMAGE_REPO_TOMCAT }}
   publish:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     needs: build-and-test
     strategy:
